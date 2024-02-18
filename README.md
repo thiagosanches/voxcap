@@ -2,6 +2,8 @@
 
 VoxCap is a simple tool for narrating text and adding closed captions to your videos. Whether you're creating educational content or sharing information about technologies, VoxCap enhances the viewer's experience by providing both audio narration and text captions. The concept was to emulate the style of TikTok videos. There are probably cooler/better ways to do this, but I just wanted to give it a shot, and it turned out to be kinda fun!
 
+![image](https://github.com/thiagosanches/voxcap/assets/5191469/7ebfda0e-4700-48e5-9ec1-956f74a084f8)
+
 The primary objective is to utilize it with [OBS](https://obsproject.com/) by employing the Browser Source component.
 
 ## Requirements
