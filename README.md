@@ -27,3 +27,6 @@ git clone https://github.com/thiagosanches/voxcap.git
 
 ## Examples
 - You can see this video [here](https://vm.tiktok.com/ZM6oLwN2n/) where it uses this little tool.
+
+## TODO
+- Please improve the code as soon as possible! I only did it as a Proof of Concept, but it definitely needs some love.
