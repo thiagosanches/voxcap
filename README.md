@@ -11,9 +11,6 @@ The primary objective is to utilize it with [OBS](https://obsproject.com/) by em
 - Web browser (tested on Mozilla Firefox).
 - Google Cloud Text-To-Speech API key.
 
-## How to set it up ?
-
-
 ## How to use it ?
 
 ```
@@ -24,6 +21,10 @@ git clone https://github.com/thiagosanches/voxcap.git
 - Add a Browser source component and point to the [index.html](./index.html) (as a local source).
 - Drag and drop it wherever you want. Personally, I toss it at the bottom of the video to hide the 'play' button. But, if you hit 'Interact' in OBS, you can click on the 'play' button to kick off both the audio and closed captions.
 - Kick off your recording.
+
+## How to set it up ?
+
+You need to modify lines 61 and 62 by replacing the placeholder values with your API key and the desired text.
 
 ## Examples
 - You can see this video [here](https://vm.tiktok.com/ZM6oLwN2n/) where it uses this little tool.
