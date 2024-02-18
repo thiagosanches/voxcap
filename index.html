@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Test</title>
+    <style>
+        .blabla {
+            font-size: 40px;
+            font-weight: bold;
+            color: yellow;
+            font-family: 'Courier New', Courier, monospace;
+
+            text-shadow:
+                -1px -1px 0 black,
+                1px -1px 0 black,
+                -1px 1px 0 black,
+                1px 1px 0 black;
+        }
+
+        .wrapper {
+            box-shadow: 5px 5px gray;
+            text-align: center;
+            background-color: lightgray;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #00ff00;
+        }
+
+
+        .footer {
+            background-color: #00ff00;
+            padding: 10px;
+            text-align: center;
+        }
+
+        .content {
+            flex: 1;
+            /* Add styling for your content area if needed */
+        }
+    </style>
+</head>
+
+<body>
+    <div id="mainmain" class="wrapper">
+        <div id="main"></div>
+    </div>
+    <div class="content"></div>
+    <div id="controller" class="footer">
+        <button onclick="getAudio()">play</button>
+    </div>
+    <audio id="audio"></audio>
+    <script type="application/javascript">
+
+        const API_KEY = ""
+        const text = "";
+
+        const tokens = text.split(" ");
+        let wordsPerTime = 0;
+        const maxWordsPerTime = 5;
+
+        let phrase = "";
+        for (const i of tokens) {
+
+            if (wordsPerTime <= maxWordsPerTime) {
+                wordsPerTime++;
+                phrase += " " + i;
+
+            }
+            else {
+                wordsPerTime = 0;
+                document.getElementById("main").innerHTML += "<div style='display: none' class='blabla'>" + phrase + "</div>"
+                phrase = i
+            }
+        }
+
+        document.getElementById("main").innerHTML += "<div style='display: none' class='blabla'>" + phrase + "</div>"
+        let blabla = null;
+
+
+        function play() {
+            document.getElementById("audio").play();
+            const phrases = document.querySelectorAll('.blabla');
+            const readTime = 2000;
+            for (var i = 0; i < phrases.length; i++) {
+                const readTimeWithPunctuation = phrases[i].innerHTML.indexOf('.') > 0 ? readTime + 500 : readTime;
+                window.setTimeout((a) => {
+                    a.style = "display: block"
+                    //console.log(a.innerHTML + " " + readTimeWithPunctuation);
+                    window.setTimeout((b) => {
+                        b.style = "display: none";
+                    }, readTimeWithPunctuation, a);
+
+                }, readTime * i + 500, phrases[i])
+            }
+        }
+
+        function getAudio() {
+            //document.getElementById("controller").style = "display: none;"
+            // if there is an audio, we don't need to call the API again, let's just replay it.
+            if (document.getElementById('audio').src.length > 22) {
+                play();
+                return;
+            }
+
+            fetch(`https://texttospeech.googleapis.com/v1/text:synthesize?key=${API_KEY}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    input: { text },
+                    voice: { languageCode: 'pt-BR', name: 'pt-BR-Neural2-A' },
+                    audioConfig: {
+                        audioEncoding: 'MP3', "audioEncoding": "LINEAR16",
+                        "effectsProfileId": [
+                            "small-bluetooth-speaker-class-device"
+                        ],
+                        //"pitch": 9.60,
+                        "speakingRate": 1.52 //1.05
+                    },
+                }),
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const audioContent = data.audioContent;
+                    const audioUrl = `data:audio/mp3;base64,${audioContent}`;
+                    document.getElementById('audio').src = audioUrl
+                    play();
+                })
+                .catch(error => {
+                    console.error('Error synthesizing speech:', error);
+                });
+        }
+
+    </script>
+</body>
+
+</html>
